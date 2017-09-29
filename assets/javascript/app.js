@@ -22,9 +22,6 @@
 
 // #variables 
 // #right, wrong, question object, unanswered, answer
-
-
-
 // an object that stores questions answers
 
 
@@ -59,6 +56,7 @@ function generateQuestions(questionAnswer) {
     var question = questionAnswer[questionKeys[i]][0];
     //console.log("question list " + question);
     var solutionChoices = questionAnswer[questionKeys[i]][1];
+    var correctAnswer = questionAnswer[questionKeys[i][2]];
     //console.log(solutionChoices);
 
     // var htmlQuestion = $('<p>');
@@ -99,13 +97,18 @@ function generateQuestions(questionAnswer) {
     $("#questions").on("click", function() {
     //capturing right button clicks
     // var userAnswer = $(this).attr("value",i);
-    
-    
-    userAnswer = $('data-choices').val();
+      
+//listens to radio button checked then compare
+      var answer = $('input:checked').val();
+        if(answer === correctAnswer) {
+          correct++;
+          console.log("correct " + correct);
+        } else {
+          wrong++;
+          console.log("wrong " + wrong);
+        }
 
-    console.log("this is row being selected" + userAnswer);
-
-  });
+    });
 
 
 
@@ -167,7 +170,10 @@ function renderTimeRemaining(){
 
 //once number reaches zero displays a page that shows the score
     if (timeRemaining===0) {
-      alert("time's up!!");
+       clearInterval(intervalId);
+    $("#questions").hide(); 
+    $("#results").html("<h1>Results</h1><br>" + "Correct: " + correct + "<br> Wrong: " + wrong).show();
+   
 
     }
 } 
