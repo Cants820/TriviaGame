@@ -152,6 +152,12 @@ function run() {
   decrementTimer();
   var intervalId = setInterval(decrementTimer,1000);
   //console.log(timeRemaining);
+  function stop (){
+
+  clearInterval(intervalId);
+} 
+
+
 }
 
 
@@ -170,13 +176,18 @@ function renderTimeRemaining(){
 
 //once number reaches zero displays a page that shows the score
     if (timeRemaining===0) {
-       clearInterval(intervalId);
+    
+    
+    
     $("#questions").hide(); 
+    stop();
     $("#results").html("<h1>Results</h1><br>" + "Correct: " + correct + "<br> Wrong: " + wrong).show();
-   
+    
 
     }
-} 
+}
+
+
 
 // end document .ready
 });
