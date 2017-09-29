@@ -37,6 +37,8 @@ var wrong = 0;
 var unanswered = 0;
 var choices;
 var timeRemaining = 30;
+var intervalId;
+
 
 var questionAnswer = {
             allQuestions: {
@@ -100,11 +102,13 @@ function generateQuestions(questionAnswer) {
       
 //listens to radio button checked then compare
       var answer = $('input:checked').val();
+      console.log(answer);
+// increment are total off. It is comparing though. I think that every click is tallied more than once which is interesting.
         if(answer === correctAnswer) {
-          correct++;
+          correct =+ 1;
           console.log("correct " + correct);
         } else {
-          wrong++;
+          wrong =+ 1;
           console.log("wrong " + wrong);
         }
 
@@ -149,15 +153,10 @@ run();
 
 // #Once Play button is clicked user has 30 secs to answer all the questions.
 function run() {
-  decrementTimer();
+  
   var intervalId = setInterval(decrementTimer,1000);
+  decrementTimer();
   //console.log(timeRemaining);
-  function stop (){
-
-  clearInterval(intervalId);
-} 
-
-
 }
 
 
@@ -167,28 +166,21 @@ function decrementTimer(){
   renderTimeRemaining()
 
 //display the number by targeting the selector time-remaining
-  
+
 }
 
 function renderTimeRemaining(){
   $("#time-remaining").html("<h2>" + timeRemaining + "</h2>");
-
-
 //once number reaches zero displays a page that shows the score
     if (timeRemaining===0) {
-    
-    
-    
+      //intervalId is indefined.
+    clearInterval(intervalId);
+    console.log(intervalId);
     $("#questions").hide(); 
-    stop();
     $("#results").html("<h1>Results</h1><br>" + "Correct: " + correct + "<br> Wrong: " + wrong).show();
     
-
     }
 }
-
-
-
 // end document .ready
 });
 
