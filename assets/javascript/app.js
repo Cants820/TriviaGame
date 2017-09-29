@@ -44,7 +44,7 @@ var timeRemaining = 30;
 var questionAnswer = {
             allQuestions: {
                question1:[["Which NBA team won the most titles in the 90s ?"],["New York","Portland Trailblazers","Los Angeles Lakers","Chicago Bulls"], ["Chicago Bulls"]],
-               question2:[["The ____ originated in Crotia.","ballpoint pen"], ["necktie","chain saw", "box office"], ["necktie"]],
+               question2:[["The ____ originated in Crotia."],["ballpoint pen","necktie","chain saw", "box office"], ["necktie"]],
                question3:[["Between 1900 and 1920, ____ was an Olympic event."], ["sack race", "three-legged race", "egg on spoon", "tug of war"] ,["tug of war"]],
                question4:[["On the 2011 Czech Republic census, 15,070 people listed their religion as '___'."],["Jedi", "Lady Gaga", "Harry Potter", "Holy Roman Empire"],["Jedi"]]
             }
@@ -57,11 +57,20 @@ function generateQuestions(questionAnswer) {
   for (var i = 0; i < questionKeys.length; i++){
     //questions pulls out all the first index inside obj.
     var question = questionAnswer[questionKeys[i]][0];
-    console.log("question list " + question);
+    //console.log("question list " + question);
     var solutionChoices = questionAnswer[questionKeys[i]][1];
+    //console.log(solutionChoices);
+
+    // var htmlQuestion = $('<p>');
+    // htmlQuestion.attr("id", question);
+    // // htmlQuestion.text(question);
+    // htmlQuestion.append(question);
     var html = "<div id= question" + i + "/>"; 
-     html += "<p>" + question + "</p>";
-     console.log(question);
+    html += "<p>" + question + "</p>";
+   
+
+
+    console.log(question);
      //console.log(html);
     //console.log("questions " + html);
     
@@ -73,23 +82,51 @@ function generateQuestions(questionAnswer) {
     // //create your radio butons with each value/possible as
     // //console.log("solutionChoices " + solutionChoices);
     // }
-    for (var i = 0; i < solutionChoices.length ; i++) {
-      html += "<div id= choices"+i +"/>"
-      html += "<input type=radio value=" + solutionChoices[i] + ">" + solutionChoices[i] + " </input>";
-      console.log("multiple choices" + solutionChoices);
-    }
+    for (var j = 0; j < solutionChoices.length ; j++) {
+      //html += "<div id= choices"+j +"/>"
       
+      //'id=' + solutionChoices[j];
+      
+      html += "<input type=radio" + " value='"+ solutionChoices[j]  + "' data-choices='"  + solutionChoices[j]  + "'name='group"; 
+      html += i + "'/>"
+      html += solutionChoices[j];
+
+      
+      
+
+    //console.log("multiple choices" + solutionChoices);
+    //when radio button is clicked 
+    $("#questions").on("click", function() {
+    //capturing right button clicks
+    // var userAnswer = $(this).attr("value",i);
+    
+    
+    userAnswer = $('data-choices').val();
+
+    console.log("this is row being selected" + userAnswer);
+
+  });
+
+
+
+    }
+
+
  
+      
+  //sends string to renderQuestion 
+  renderQuestion(html);
+
   }
-    //sends string to renderQuestion 
-    renderQuestion(html);
+    
 }   //nested for loop on var questions, array of 5
     //for each one create <input type="radio" value="question[i]"
     
-function renderQuestion(htmlQuestion) {
+function renderQuestion(html) {
   //grab a hold of the questions div and append the new htmlQuestion
   //$("#questions").append(htmlQuestion);
-   $("#questions").append(htmlQuestion);
+   $("#questions").append(html);
+   
 }
 
 
@@ -98,18 +135,18 @@ function renderQuestion(htmlQuestion) {
 $("#start-game").on("click",function(){
 
 //once start game has been pressed timer decrements
-//run();  
+$("#start-game").hide();
+
 generateQuestions(questionAnswer.allQuestions);
-
-
-    
+run();
 
 
 });
 
+
 // #Once Play button is clicked user has 30 secs to answer all the questions.
 function run() {
-   
+  decrementTimer();
   var intervalId = setInterval(decrementTimer,1000);
   //console.log(timeRemaining);
 }
